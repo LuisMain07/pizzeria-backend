@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\SupplierController;
 use App\Http\Controllers\api\RawMaterialsController;
+use App\Http\Controllers\api\PizzaRawMaterialController;
 use App\Http\Controllers\api\PurchaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,11 @@ Route::post('/purchase', [PurchaseController::class, 'store'])->name('purchases.
 Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchases.destroy');
 Route::get('/purchase/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
 Route::put('/purchase/{purchase}', [PurchaseController::class, 'update'])->name('purchases.update');
+
+//PizzaRawMaterial
+Route::get('/pizza-raw-material', [PizzaRawMaterialController::class, 'index'])->name('pizza-raw-materials');
+Route::post('/pizza-raw-material', [PizzaRawMaterialController::class, 'store'])->name('pizza-raw-materials.store');
+Route::delete('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'destroy'])->name('pizza-raw-materials.destroy');
+Route::get('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'show'])->name('pizza-raw-materials.show');
+Route::put('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'update'])->name('pizza-raw-materials.update');
+
