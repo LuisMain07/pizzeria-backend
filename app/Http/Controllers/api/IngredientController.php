@@ -23,7 +23,15 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $ingredient = new Ingredient();
+        $ingredient->name = $request->name;
+        $ingredient->save();
+
+        return response()->json(['message' => 'Ingrediente creado exitosamente', 'data' => $ingredient], 201);
     }
 
     /**
