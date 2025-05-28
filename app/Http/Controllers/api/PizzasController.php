@@ -15,8 +15,12 @@ class PizzasController extends Controller
      */
     public function index()
     {
-        $pizzas = DB::table('pizzas')->get();
-        return response()->json($pizzas);
+        $pizzas_sizes = DB::table('pizza_size')
+            ->join('pizzas', 'pizza_size.pizza_id', '=', 'pizzas.id')
+            ->select('pizza_size.*', 'pizzas.name as pizza_name')
+            ->get();
+
+        return response()->json($pizzas_sizes);
     }
 
     /**
