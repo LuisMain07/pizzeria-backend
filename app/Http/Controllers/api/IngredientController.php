@@ -74,6 +74,14 @@ class IngredientController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $ingredient = Ingredient::find($id);
+
+        if (!$ingredient) {
+            return response()->json(['message' => 'Ingrediente no encontrado'], 404);
+        }
+
+        $ingredient->delete();
+
+        return response()->json(['message' => 'Ingrediente eliminado']);
     }
 }
