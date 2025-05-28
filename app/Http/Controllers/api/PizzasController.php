@@ -24,7 +24,15 @@ class PizzasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $pizza = new Pizza();
+        $pizza->name = $request->name;
+        $pizza->save();
+
+        return response()->json(['message' => 'Pizza creada con éxito', 'data' => $pizza], 201);
     }
 
     /**
@@ -32,7 +40,13 @@ class PizzasController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pizza = Pizza::find($id);
+
+        if (!$pizza) {
+            return response()->json(['message' => 'Pizza no encontrada'], 404);
+        }
+
+        return response()->json($pizza);
     }
 
     /**
@@ -40,7 +54,20 @@ class PizzasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $pizza = Pizza::find($id);
+
+        if (!$pizza) {
+            return response()->json(['message' => 'Pizza no encontrada'], 404);
+        }
+
+        $pizza->name = $request->name;
+        $pizza->save();
+
+        return response()->json(['message' => 'Pizza actualizada con éxito', 'data' => $pizza]);
     }
 
     /**
@@ -48,6 +75,14 @@ class PizzasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pizza = Pizza::find($id);
+
+        if (!$pizza) {
+            return response()->json(['message' => 'Pizza no encontrada'], 404);
+        }
+
+        $pizza->delete();
+
+        return response()->json(['message' => 'Pizza eliminada con éxito']);
     }
 }
