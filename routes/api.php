@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\SupplierController;
 use App\Http\Controllers\api\RawMaterialsController;
+use App\Http\Controllers\api\PurchaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,10 @@ Route::post('/raw-material', [RawMaterialsController::class, 'store'])->name('ra
 Route::delete('/raw-material/{rawMaterial}', [RawMaterialsController::class, 'destroy'])->name('raw-materials.destroy');
 Route::get('/raw-material/{rawMaterial}', [RawMaterialsController::class, 'show'])->name('raw-materials.show');
 Route::put('/raw-material/{rawMaterial}', [RawMaterialsController::class, 'update'])->name('raw-materials.update');
+
+//Purchases
+Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchases');
+Route::post('/purchase', [PurchaseController::class, 'store'])->name('purchases.store');
+Route::delete('/purchase/{purchase}', [PurchaseController::class, 'destroy'])->name('purchases.destroy');
+Route::get('/purchase/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
+Route::put('/purchase/{purchase}', [PurchaseController::class, 'update'])->name('purchases.update');
