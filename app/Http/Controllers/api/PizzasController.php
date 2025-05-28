@@ -4,6 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Pizza;
+use Illuminate\Support\Facades\DB;
+
 
 class PizzasController extends Controller
 {
@@ -12,7 +15,8 @@ class PizzasController extends Controller
      */
     public function index()
     {
-        //
+        $pizzas = DB::table('pizzas')->get();
+        return response()->json($pizzas);
     }
 
     /**
