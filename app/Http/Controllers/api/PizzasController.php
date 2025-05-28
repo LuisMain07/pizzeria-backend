@@ -29,14 +29,22 @@ class PizzasController extends Controller
     public function store(Request $request)
     {
          $request->validate([
-            'name' => 'required|string|max:255',
+            'pizza_id' => 'required|exists:pizzas,id',
+            'size' => 'required|in:pequeña,mediana,grande',
+            'price' => 'required|numeric|min:0',
         ]);
 
-        $pizza = new Pizza();
-        $pizza->name = $request->name;
-        $pizza->save();
+        $id = DB::table('pizza_size')->insertGetId([
+            'pizza_id' => $request->pizza_id,
+            'size' => $request->size,
+            'price' => $request->price,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
-        return response()->json(['message' => 'Pizza creada con éxito', 'data' => $pizza], 201);
+        $newPizzaSize = Pizza_size::find($id);
+
+        return response()->json(['message' => 'Tamaño de pizza agregado exitosamente', 'data' => $newPizzaSize], 201);
     }
 
     /**
