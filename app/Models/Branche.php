@@ -1,5 +1,5 @@
 <?php
-
+// app/Models/Branche.php - ACTUALIZAR
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,20 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Branche extends Model
 {
     use HasFactory;
+
     protected $table = 'branches';
     protected $primaryKey = 'id';
-    public $timestamps = true;
+    public $timestamps = true; // CAMBIAR de false a true
 
     protected $fillable = [
         'name',
-        'address',
+        'address'
     ];
 
-    //Relaciones
-
-    public function users()
+    // Relaciones preparadas para trabajo en equipo
+    public function orders()
     {
-        return $this->hasMany(User::class, 'branch_id');
+        return $this->hasMany(Order::class, 'branch_id');
     }
 
     public function ordersPizza()
