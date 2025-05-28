@@ -53,7 +53,20 @@ class IngredientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $ingredient = Ingredient::find($id);
+
+        if (!$ingredient) {
+            return response()->json(['message' => 'Ingrediente no encontrado'], 404);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $ingredient->name = $request->name;
+        $ingredient->save();
+
+        return response()->json(['message' => 'Ingrediente actualizado', 'data' => $ingredient]);
     }
 
     /**
