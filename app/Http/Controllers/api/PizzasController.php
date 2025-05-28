@@ -66,20 +66,25 @@ class PizzasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $pizza_size = Pizza_size::find($id);
 
-        $pizza = Pizza::find($id);
-
-        if (!$pizza) {
-            return response()->json(['message' => 'Pizza no encontrada'], 404);
+        if (!$pizza_size) {
+            return response()->json(['message' => 'Tamaño de pizza no encontrado'], 404);
         }
 
-        $pizza->name = $request->name;
-        $pizza->save();
+        $request->validate([
+            'pizza_id' => 'required|exists:pizzas,id',
+            'size' => 'required|in:pequeña,mediana,grande',
+            'price' => 'required|numeric|min:0',
+        ]);
 
-        return response()->json(['message' => 'Pizza actualizada con éxito', 'data' => $pizza]);
+        $pizza_size->pizza_id = $request->pizza_id;
+        $pizza_size->size = $request->size;
+        $pizza_size->price = $request->price;
+        $pizza_size->updated_at = now();
+        $pizza_size->save();
+
+        return response()->json(['message' => 'Tamaño de pizza actualizado', 'data' => $pizza_size]);
     }
 
     /**
