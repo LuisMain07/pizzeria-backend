@@ -10,5 +10,23 @@ class Branche extends Model
     use HasFactory;
     protected $table = 'branches';
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
+
+    protected $fillable = [
+        'name',
+        'address',
+    ];
+
+    //Relaciones
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'branch_id');
+    }
+
+    public function ordersPizza()
+    {
+        return $this->hasMany(Order_pizza::class, 'branch_id');
+    }
+
 }

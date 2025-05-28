@@ -10,4 +10,7 @@ class Order_pizza extends Model
     use HasFactory;
     protected $table = 'orders_pizza';
     protected $primaryKey = 'id';
+    public $timestamps = true;
+
+   
 }
