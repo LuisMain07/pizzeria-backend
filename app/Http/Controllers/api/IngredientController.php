@@ -14,7 +14,8 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        //
+        $ingredients = DB::table('ingredients')->get();
+        return response()->json($ingredients);
     }
 
     /**
