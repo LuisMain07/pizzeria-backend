@@ -52,13 +52,13 @@ class PizzasController extends Controller
      */
     public function show(string $id)
     {
-        $pizza = Pizza::find($id);
+        $pizza_size = Pizza_size::find($id);
 
-        if (!$pizza) {
-            return response()->json(['message' => 'Pizza no encontrada'], 404);
+        if (!$pizza_size) {
+            return response()->json(['message' => 'Tamaño de pizza no encontrado'], 404);
         }
 
-        return response()->json($pizza);
+        return response()->json($pizza_size);
     }
 
     /**
