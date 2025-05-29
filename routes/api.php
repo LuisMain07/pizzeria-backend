@@ -5,6 +5,7 @@ use App\Http\Controllers\api\RawMaterialsController;
 use App\Http\Controllers\api\PizzaRawMaterialController;
 use App\Http\Controllers\api\PurchaseController;
 use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\ClienteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,4 +51,12 @@ Route::post('/user', [UserController::class, 'store'])->name('users.store');
 Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::get('/user/{user}', [UserController::class, 'show'])->name('users.show');
 Route::put('/user/{user}', [UserController::class, 'update'])->name('users.update');
+
+//Cliente
+Route::get('/client', [ClienteController::class, 'index'])->name('clients');
+Route::post('/client', [ClienteController::class, 'store'])->name('clients.store');
+Route::delete('/client/{client}', [ClienteController::class, 'destroy'])->name('clients.destroy');
+Route::get('/client/{client}', [ClienteController::class, 'show'])->name('clients.show');
+Route::put('/client/{client}', [ClienteController::class, 'update'])->name('clients.update');
+
 
