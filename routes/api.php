@@ -6,15 +6,17 @@ use App\Http\Controllers\api\IngredientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
-});
+})->middleware('auth:sanctum');
 
-// === RUTAS MÓDULO PIZZAS ===
+// ruta de pizzas
 Route::apiResource('pizzas', PizzasController::class);
 
-// === RUTAS MÓDULO TAMAÑOS DE PIZZAS ===
+// ruta de tamaños de pizzas
 Route::apiResource('pizzas_sizes', PizzasSizeController::class);
 
-// === RUTAS MÓDULO INGREDIENTES ===
+// ruta de ingredientes
 Route::apiResource('ingredients', IngredientController::class);
+
+
