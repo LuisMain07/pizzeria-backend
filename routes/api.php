@@ -42,4 +42,3 @@ Route::post('/pizza-raw-material', [PizzaRawMaterialController::class, 'store'])
 Route::delete('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'destroy'])->name('pizza-raw-materials.destroy');
 Route::get('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'show'])->name('pizza-raw-materials.show');
 Route::put('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'update'])->name('pizza-raw-materials.update');
-
