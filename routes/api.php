@@ -46,6 +46,7 @@ Route::delete('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialControl
 Route::get('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'show'])->name('pizza-raw-materials.show');
 Route::put('/pizza-raw-material/{pizzaRawMaterial}', [PizzaRawMaterialController::class, 'update'])->name('pizza-raw-materials.update');
 
+
 //User
 Route::get('/user', [UserController::class, 'index'])->name('users');
 Route::post('/user', [UserController::class, 'store'])->name('users.store');
@@ -66,5 +67,4 @@ Route::post('/employees', [EmployeesController::class, 'store'])->name('employee
 Route::delete('/employees/{employees}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
 Route::get('/employees/{employees}', [EmployeesController::class, 'show'])->name('employees.show');
 Route::put('/employees/{employees}', [EmployeesController::class, 'update'])->name('employees.update');
-
 
