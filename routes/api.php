@@ -6,6 +6,7 @@ use App\Http\Controllers\api\PizzaRawMaterialController;
 use App\Http\Controllers\api\PurchaseController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\ClienteController;
+use App\Http\Controllers\api\EmployeesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,5 +59,12 @@ Route::post('/client', [ClienteController::class, 'store'])->name('clients.store
 Route::delete('/client/{client}', [ClienteController::class, 'destroy'])->name('clients.destroy');
 Route::get('/client/{client}', [ClienteController::class, 'show'])->name('clients.show');
 Route::put('/client/{client}', [ClienteController::class, 'update'])->name('clients.update');
+
+// Employees
+Route::get('/employees', [EmployeesController::class, 'index'])->name('employees');
+Route::post('/employees', [EmployeesController::class, 'store'])->name('employees.store');
+Route::delete('/employees/{employees}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
+Route::get('/employees/{employees}', [EmployeesController::class, 'show'])->name('employees.show');
+Route::put('/employees/{employees}', [EmployeesController::class, 'update'])->name('employees.update');
 
 
