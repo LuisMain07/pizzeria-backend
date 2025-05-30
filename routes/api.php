@@ -1,7 +1,14 @@
 <?php
 
+
+use App\Http\Controllers\api\PizzasController;
+use App\Http\Controllers\api\PizzasSizeController;
+use App\Http\Controllers\api\IngredientController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 // routes/api.php - VERSIÓN COMPLETA CON TODOS TUS CONTROLADORES
-=======
+
 
 use App\Http\Controllers\api\SupplierController;
 use App\Http\Controllers\api\RawMaterialsController;
@@ -17,10 +24,21 @@ use App\Http\Controllers\BrancheController;
 use App\Http\Controllers\Order_pizzaController;
 use App\Http\Controllers\Order_extra_ingredientController;
 
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+// ruta de pizzas
+Route::apiResource('pizzas', PizzasController::class);
+
+// ruta de tamaños de pizzas
+Route::apiResource('pizzas_sizes', PizzasSizeController::class);
+
+// ruta de ingredientes
+Route::apiResource('ingredients', IngredientController::class);
+=======
 
 // ========== RUTAS PARA SUCURSALES ==========
 Route::apiResource('branches', BrancheController::class);
@@ -180,7 +198,7 @@ Route::get('/team-info', function () {
         ]
     ]);
 });
-=======
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();    
 });
@@ -234,5 +252,6 @@ Route::post('/employees', [EmployeesController::class, 'store'])->name('employee
 Route::delete('/employees/{employees}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
 Route::get('/employees/{employees}', [EmployeesController::class, 'show'])->name('employees.show');
 Route::put('/employees/{employees}', [EmployeesController::class, 'update'])->name('employees.update');
+
 
 
