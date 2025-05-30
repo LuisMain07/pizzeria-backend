@@ -65,12 +65,12 @@ Route::get('/test', function () {
         'message' => 'API de Pizzería funcionando correctamente - TU PARTE COMPLETA',
         'timestamp' => now(),
         'team_member' => 'Tu implementación',
-        'status' => 'BACKEND COMPLETO ✅',
+        'status' => 'BACKEND COMPLETO',
 
         'your_tables' => [
-            'branches - Sucursales ✅',
-            'orders_pizza - Relación órdenes-pizzas ✅',
-            'order_extra_ingredient - Relación órdenes-ingredientes ✅'
+            'branches - Sucursales',
+            'orders_pizza - Relación órdenes-pizzas',
+            'order_extra_ingredient - Relación órdenes-ingredientes'
         ],
 
         'available_endpoints' => [
