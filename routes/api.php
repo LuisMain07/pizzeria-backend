@@ -62,9 +62,9 @@ Route::get('/client/{client}', [ClienteController::class, 'show'])->name('client
 Route::put('/client/{client}', [ClienteController::class, 'update'])->name('clients.update');
 
 // Employees
-Route::get('/employees', [EmployeesController::class, 'index'])->name('employees');
-Route::post('/employees', [EmployeesController::class, 'store'])->name('employees.store');
-Route::delete('/employees/{employees}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
-Route::get('/employees/{employees}', [EmployeesController::class, 'show'])->name('employees.show');
-Route::put('/employees/{employees}', [EmployeesController::class, 'update'])->name('employees.update');
+Route::get('/employee', [EmployeesController::class, 'index'])->name('employees');
+Route::post('/employee', [EmployeesController::class, 'store'])->name('employees.store');
+Route::delete('/employee/{employee}', [EmployeesController::class, 'destroy'])->name('employees.destroy');
+Route::get('/employee/{employee}', [EmployeesController::class, 'show'])->name('employees.show');
+Route::put('/employee/{employee}', [EmployeesController::class, 'update'])->name('employees.update');
 
