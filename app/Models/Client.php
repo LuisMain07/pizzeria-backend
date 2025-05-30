@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
+
     protected $table = 'clients';
     protected $primaryKey = 'id';
     public $timestamps = false;
+
+    // Permitir asignación masiva en estos campos
+    protected $fillable = [
+        'user_id',
+        'address',
+        'phone',
+    ];
 }

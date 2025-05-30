@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class EmployeesController extends Controller
@@ -15,9 +16,12 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = \App\Models\Employee::with('user')->get();
-
-        return response()->json(['employees' => $employees]);
+        try {
+            $employees = \App\Models\Employee::with('user')->get();
+            return response()->json(['employees' => $employees], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener empleados', 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -27,13 +31,13 @@ class EmployeesController extends Controller
     {
         try {
             $request->validate([
-                'user.name' => ['required', 'string', 'max:255'],
-                'user.email' => ['required', 'email', 'unique:users,email'],
-                'user.password' => ['required', 'string', 'min:6'],
-                'position' => ['required', 'in:cajero,administrador,cocinero,mensajero'],
-                'identification_number' => ['required', 'max:20'],
-                'salary' => ['required', 'numeric', 'min:0'],
-                'hire_date' => ['required', 'date'],
+                'user.name' => 'required|string|max:255',
+                'user.email' => 'required|email|unique:users,email',
+                'user.password' => 'required|string|min:6',
+                'position' => 'required|in:cajero,administrador,cocinero,mensajero',
+                'identification_number' => 'required|max:20',
+                'salary' => 'required|numeric|min:0',
+                'hire_date' => 'required|date',
             ]);
 
             // Crear usuario
@@ -70,7 +74,7 @@ class EmployeesController extends Controller
      */
     public function show(string $id)
     {
-        $employee = \App\Models\Employee::find($id);
+        $employee = \App\Models\Employee::with('user')->find($id);
 
         if (is_null($employee)) {
             return response()->json(['error' => 'Empleado no encontrado.'], 404);
@@ -89,21 +93,30 @@ class EmployeesController extends Controller
             'identification_number' => ['required', 'max:20'],
             'salary' => ['required', 'numeric'],
             'hire_date' => ['required', 'date'],
+            'user.name' => ['required', 'string', 'max:255'],
+            'user.email' => ['required', 'email', 'max:255'],
         ]);
 
-        $employee = \App\Models\Employee::find($id);
+        $employee = \App\Models\Employee::with('user')->find($id);
 
         if (is_null($employee)) {
             return response()->json(['message' => 'Empleado no encontrado.'], 404);
         }
 
+        // Actualizar datos del empleado
         $employee->position = $request->position;
         $employee->identification_number = $request->identification_number;
         $employee->salary = $request->salary;
         $employee->hire_date = $request->hire_date;
         $employee->save();
 
-        return response()->json(['employee' => $employee], 200);
+        // Actualizar datos del usuario relacionado
+        $user = $employee->user;
+        $user->name = $request->input('user.name');
+        $user->email = $request->input('user.email');
+        $user->save();
+
+        return response()->json(['employee' => $employee->load('user')], 200);
     }
 
     /**
