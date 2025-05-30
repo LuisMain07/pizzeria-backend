@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Pizza extends Model
 {
     use HasFactory;
+
     protected $table = 'pizzas';
-    protected $primaryKey = 'id';
-    public $timestamps = false;
+
+    protected $fillable = [
+        'name'
+    ];
+
+    public function sizes()
+    {
+        return $this->hasMany(Pizza_size::class);
+    }
 }
