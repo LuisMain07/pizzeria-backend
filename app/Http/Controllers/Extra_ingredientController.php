@@ -1,31 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Extra_ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Extra_ingredientController extends Controller
+class ExtraIngredientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $extra_ingredients = DB::table('extra_ingredients')
+        $extraIngredients = DB::table('extra_ingredients')
             ->get();
-        return view('Extra_ingredient.index', ['extra_ingredients' => $extra_ingredients]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $extra_ingredients = DB::table('extra_ingredients')
-            ->get();
-        return view('Extra_ingredient.new', ['extra_ingredients' => $extra_ingredients]);
+        
+        return response()->json([
+            'status' => 'success',
+            'data' => $extraIngredients
+        ], 200);
     }
 
     /**
@@ -33,13 +28,22 @@ class Extra_ingredientController extends Controller
      */
     public function store(Request $request)
     {
-        $extra_ingredient = new Extra_ingredient();
-        $extra_ingredient->name = $request->ingredient;
-        $extra_ingredient->price = $request->price;
+        // Validaciones
+        $request->validate([
+            'name' => 'required|string|max:255|unique:extra_ingredients,name',
+            'price' => 'required|numeric|min:0'
+        ]);
 
-        $extra_ingredient->save();
+        $extraIngredient = new Extra_ingredient();
+        $extraIngredient->name = $request->name;
+        $extraIngredient->price = $request->price;
+        $extraIngredient->save();
 
-        return redirect()->route('extra_ingredients.index');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Ingrediente extra creado exitosamente',
+            'data' => $extraIngredient
+        ], 201);
     }
 
     /**
@@ -47,16 +51,22 @@ class Extra_ingredientController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $extraIngredient = DB::table('extra_ingredients')
+            ->where('id', $id)
+            ->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $extra_ingredient = Extra_ingredient::find($id);
-        return view('Extra_ingredient.edit', ['extra_ingredient' => $extra_ingredient]);
+        // Validar si el recurso existe
+        if (!$extraIngredient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ingrediente extra no encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $extraIngredient
+        ], 200);
     }
 
     /**
@@ -64,11 +74,31 @@ class Extra_ingredientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $extra_ingredient = Extra_ingredient::find($id);
-        $extra_ingredient->name = $request->ingredient;
-        $extra_ingredient->price = $request->price;
-        $extra_ingredient->save();
-        return redirect()->route('extra_ingredients.index');
+        $extraIngredient = Extra_ingredient::find($id);
+
+        // Validar si el recurso existe
+        if (!$extraIngredient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ingrediente extra no encontrado'
+            ], 404);
+        }
+
+        // Validaciones
+        $request->validate([
+            'name' => 'required|string|max:255|unique:extra_ingredients,name,' . $id,
+            'price' => 'required|numeric|min:0'
+        ]);
+
+        $extraIngredient->name = $request->name;
+        $extraIngredient->price = $request->price;
+        $extraIngredient->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Ingrediente extra actualizado exitosamente',
+            'data' => $extraIngredient
+        ], 200);
     }
 
     /**
@@ -76,9 +106,21 @@ class Extra_ingredientController extends Controller
      */
     public function destroy(string $id)
     {
-        $extra_ingredient = Extra_ingredient::find($id);
-        $extra_ingredient->delete();
+        $extraIngredient = Extra_ingredient::find($id);
 
-        return redirect()->route('extra_ingredients.index');
+        // Validar si el recurso existe
+        if (!$extraIngredient) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ingrediente extra no encontrado'
+            ], 404);
+        }
+
+        $extraIngredient->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Ingrediente extra eliminado exitosamente'
+        ], 200);
     }
 }
