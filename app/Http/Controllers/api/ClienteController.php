@@ -4,7 +4,9 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
@@ -41,14 +43,28 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'user_id' => ['required', 'numeric'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:6'],
             'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
         ]);
 
-        $client = Client::create($validated);
+        
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
 
-        return response()->json(['clients' => $clients]);
+        
+        $client = Client::create([
+            'user_id' => $user->id,
+            'address' => $validated['address'] ?? null,
+            'phone' => $validated['phone'] ?? null,
+        ]);
+
+        return response()->json(['client' => $client, 'user' => $user], 201);
     }
 
     public function show(string $id)
